@@ -21,7 +21,7 @@ This repository is the setup kit and reference for **Nova MCP**, a hosted MCP se
 | **Auth** | OAuth 2.0 with dynamic client registration, per Amazon account, revocable in Nova |
 | **Amazon data** | Seller Central (3P), Vendor Central (1P), Amazon Ads, Amazon DSP, Search Query Performance, reviews, Subscribe & Save |
 | **Marketplaces** | 23 Amazon marketplaces |
-| **Freshness** | Orders and units within seconds of the sale. Ad spend and finance transactions hourly, search terms three times a day, other reports daily |
+| **Freshness** | Orders and units within seconds of the sale. Finance transactions hourly, ad spend every two hours, search terms three times a day, other reports daily |
 | **Assistants** | Claude, ChatGPT, Microsoft Copilot, Grok, Gemini, Cursor, and any MCP client |
 | **Pricing** | Commercial. From $49/month per Amazon account, 14 day free trial, no card |
 
@@ -48,21 +48,24 @@ The server URL is identical everywhere. Each client adds it in its own connector
 
 ## Tools
 
-Full reference in [docs/tools.md](docs/tools.md).
+52 tools. Full reference in [docs/tools.md](docs/tools.md).
 
 | Tool | What it returns |
 | --- | --- |
 | `query_metrics` | Any metric over any period (sales, fees, profit, ads, sessions...), by SKU, ASIN, marketplace, account or time grain |
 | `find_movers` | Biggest gainers and losers for a metric versus a baseline period |
+| `query_pnl_bridge` | Order-based and cash-based P&L of the same months side by side, and what separates them |
 | `explain_movement` | Causal signals behind one product's movement: traffic, conversion, price, Buy Box, ads, rank |
 | `query_advertising` | Sponsored Products, Brands and Display, from campaign down to keyword and ASIN |
 | `query_search_terms` | Customer search queries behind ad spend, for negatives and discovery |
 | `query_dsp` | Amazon DSP spend and results by advertiser, order, line item, product, device, creative or audience |
-| `query_sqp` | Search Query Performance: impressions, clicks, cart adds and purchase share by query |
+| `query_sqp` | Search Query Performance: search volume, impression and purchase share by query, you versus the whole market |
 | `query_inventory` | FBA and AWD stock, velocity, days of cover, stockout risk, reorder quantities |
 | `query_listing_health` | Suppressed, not buyable, Buy Box lost, catalog issues |
 | `query_reviews` | Reviews, critical reviews and star rating per ASIN |
 | `query_subscribe_and_save` | Subscribe & Save health, offers and eligibility |
+| `query_vendor_purchase_orders` / `query_vendor_inventory` / `query_vendor_invoices` / `query_vendor_remittances` | Vendor Central: Amazon's purchase orders, the stock Amazon holds, your invoices, Amazon's payments and deductions |
+| `get_listing_content` / `update_listing_content` | Read and edit listing content on Amazon (title, bullets, backend keywords, attributes), previewed before it is confirmed |
 | `import_cogs` / `import_fbm_costs` / `import_vat_categories` | Maintain your cost inputs from the conversation, previewed before anything is saved |
 
 ## Example prompts

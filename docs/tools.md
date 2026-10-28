@@ -1,6 +1,6 @@
 # Tool reference
 
-Nova MCP exposes a pre-modelled Amazon data layer. Tools take structured filters and return tables, so a typical seller question resolves in one call. Every call records a one-line reason, so you can see in Nova how your data was used.
+Nova MCP exposes a pre-modelled Amazon data layer. 52 tools take structured filters and return tables, so a typical seller question resolves in one call. Every call records a one-line reason, so you can see in Nova how your data was used.
 
 ## Sales, profit and diagnosis
 
@@ -9,6 +9,7 @@ Nova MCP exposes a pre-modelled Amazon data layer. Tools take structured filters
 | `query_metrics` | Any metric over any period, grouped by SKU, ASIN, marketplace, account or time grain |
 | `find_movers` | Biggest gainers and losers for a metric versus a baseline period |
 | `explain_movement` | Causal signals behind one product's movement: traffic, conversion, price, Buy Box, ads, rank |
+| `query_pnl_bridge` | Order-based and cash-based P&L of the same months side by side, line by line, and what separates them (timing, refunds, reserves) |
 
 ## Advertising
 
@@ -18,7 +19,18 @@ Nova MCP exposes a pre-modelled Amazon data layer. Tools take structured filters
 | `query_search_terms` | Customer search queries behind ad spend, for negatives and discovery |
 | `list_negative_targets` | Negative keywords and product targets already in place (Sponsored Products) |
 | `query_dsp` | Amazon DSP by advertiser, order, line item, product, supply, device, creative, audience or country |
-| `query_sqp` | Search Query Performance: impressions, clicks, cart adds and purchases, with your share, by query |
+| `query_sqp` | Search Query Performance: search volume, the whole market's funnel on each query and your impression and purchase share of it, with year on year change |
+
+## Vendor Central (1P)
+
+| Tool | Returns |
+| --- | --- |
+| `query_vendor_purchase_orders` | Amazon's purchase orders to the vendor: ship window, state, requested, accepted and received units, per PO or per product |
+| `query_vendor_inventory` | The stock Amazon holds of the vendor's products, per ASIN and marketplace, as of Amazon's last reported week |
+| `query_vendor_invoices` | The invoices issued to Amazon and their status: paid, partially paid, in progress, variances and quick pay discount |
+| `query_vendor_remittances` | What Amazon paid and what it deducted, per payment or per invoice, on the payment date |
+
+Sales, traffic, P&L and the Amazon shelf of a Vendor Central account read through `query_metrics` and `find_movers`, the same tools as Seller Central: `list_metrics` marks each metric's channel (SELLER, VENDOR) and basis.
 
 ## Inventory and supply chain
 
@@ -35,6 +47,7 @@ Nova MCP exposes a pre-modelled Amazon data layer. Tools take structured filters
 | Tool | Returns |
 | --- | --- |
 | `query_listing_health` | Suppressed, not buyable, Buy Box lost, catalog issues |
+| `get_listing_content` / `update_listing_content` / `get_listing_change_status` | Read the editable content of a listing as Amazon holds it, change it (title, bullets, description, backend keywords, attributes; never price or stock) and follow the change until Amazon publishes it |
 | `query_bsr` | Best Seller Rank for your own ASINs, latest or time series |
 | `query_reviews` | Reviews, critical reviews, review rate and star rating per ASIN |
 | `query_subscribe_and_save` | Subscribe & Save health, offers, eligibility changes |
@@ -59,7 +72,7 @@ Profit is only as good as the costs behind it. These tools keep them current fro
 | FBM shipping | `get_fbm_setup`, `get_fbm_worksheet`, `import_fbm_costs`, `import_fbm_zone_rates` |
 | VAT | `get_vat_setup`, `get_vat_worksheet`, `import_vat_categories`, `set_vat_default_category` |
 | Product tags | `get_tags_worksheet`, `import_product_tags` |
-| Stock and supply | `set_stock_defaults`, `import_stock_params`, `import_supply_chain`, `import_external_stock`, `import_supplier_orders` |
+| Stock and supply | `set_stock_defaults`, `import_supply_chain` (one line per product and warehouse: count, supplier orders, lead times, targets); `import_stock_params`, `import_external_stock` and `import_supplier_orders` are deprecated since 2026-10-22 and kept for existing callers |
 
 These write into your Nova account only. They never touch Amazon.
 
@@ -67,5 +80,5 @@ These write into your Nova account only. They never touch Amazon.
 
 - Listing content edits on Seller Central are available when enabled for your workspace, for the account owner, previewed with Amazon's validation before they are confirmed. They never change price or quantity.
 - Campaign actions are in development.
-- Data covers 23 Amazon marketplaces. Orders arrive within seconds; ad spend and finance transactions refresh hourly.
+- Data covers 23 Amazon marketplaces. Orders arrive within seconds; finance transactions refresh hourly, ad spend every two hours, search terms three times a day, the other reports daily.
 - Metric definitions are shared with the Nova web app, so an answer in your assistant matches the dashboard.
