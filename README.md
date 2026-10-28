@@ -1,14 +1,14 @@
-# Nova Amazon Seller MCP
+# Nova Amazon MCP Server
 
-Connect your Amazon Seller Central and Amazon Ads data to Claude, ChatGPT, Gemini or Cursor through the Model Context Protocol, and ask questions in plain language.
+Connect Amazon Seller Central, Vendor Central, Amazon Ads and DSP data to Claude, ChatGPT, Microsoft Copilot, Grok, Gemini or Cursor through the Model Context Protocol, and ask questions in plain language.
 
 ```
 Which SKUs lost the most net profit versus last month, and why?
-Which keywords burned more than $100 with zero sales?
+Which search terms spent more than $100 last week with zero sales?
 What runs out of stock in the next three weeks across all marketplaces?
 ```
 
-This repository is the setup kit and reference for **Nova MCP**, a hosted MCP server. It contains ready to paste client configurations, a documented tool reference and an example prompt library. The server itself is a commercial service operated by [Nova](https://www.novadata.io); this repo does not contain server code.
+This repository is the setup kit and reference for **Nova MCP**, a hosted MCP server. It contains ready to paste client configurations, the tool reference and an example prompt library. The server itself is a commercial service operated by [Nova](https://novadata.io/amazon-mcp-server); this repo does not contain server code.
 
 ---
 
@@ -18,106 +18,100 @@ This repository is the setup kit and reference for **Nova MCP**, a hosted MCP se
 |---|---|
 | **Endpoint** | `https://mcp.novadata.io/api/mcp` |
 | **Transport** | Remote, Streamable HTTP |
-| **Auth** | OAuth, per seller account, issued in Nova |
-| **Access today** | Reads Amazon data. Writes only to your own Nova cost configuration (COGS, FBM, VAT) |
-| **In development** | Campaign and listing actions, taken with full profit context |
+| **Auth** | OAuth 2.0 with dynamic client registration, per Amazon account, revocable in Nova |
+| **Amazon data** | Seller Central (3P), Vendor Central (1P), Amazon Ads, Amazon DSP, Search Query Performance, reviews, Subscribe & Save |
 | **Marketplaces** | 23 Amazon marketplaces |
-| **Freshness** | Hourly sync |
-| **Pricing** | Commercial. Nova plans from $29/mo, 14 day free trial, no card |
+| **Freshness** | Orders and units within seconds of the sale. Ad spend and finance transactions hourly, search terms three times a day, other reports daily |
+| **Assistants** | Claude, ChatGPT, Microsoft Copilot, Grok, Gemini, Cursor, and any MCP client |
+| **Pricing** | Commercial. From $49/month per Amazon account, 14 day free trial, no card |
 
-## Why a data layer rather than raw SP-API
+## Why a data layer rather than raw Amazon APIs
 
-Amazon's Selling Partner API and Advertising API return raw reports split across many endpoints, with no reconciliation between them. An assistant pointed at them spends most of its context paginating and joining.
+Amazon's Selling Partner, Vendor and Advertising APIs return raw reports split across many endpoints, with no reconciliation between them. An assistant pointed at them spends its context paginating and joining, and two questions can get two different numbers.
 
-Nova MCP exposes a pre-modelled layer instead: orders, settlements and 40+ Amazon fee types reconciled at SKU level, Sponsored Products down to the customer search term, FBA and AWD inventory with days of cover, listing health and buy box state, and Best Seller Rank for your own ASINs. Filtering and ranking run server side, so one seller question is usually one tool call rather than a pagination loop.
+Nova MCP exposes a pre-modelled layer instead: orders, settlements and every Amazon fee reconciled at SKU level, your own costs applied (COGS, FBM shipping, VAT), Sponsored ads down to the customer search term, DSP by order and line item, FBA and AWD inventory with days of cover, listing health and Buy Box, Best Seller Rank. Filtering and ranking run server side, so one seller question is usually one tool call, and the answer matches the Nova dashboard.
 
 ## Setup
 
-You need a Nova account with Seller Central and Amazon Ads connected, and at least one completed hourly sync. Start a trial at [novadata.io](https://www.novadata.io/amazon-mcp-for-sellers) if you do not have one.
+You need a Nova account with at least one Amazon account connected. Start a trial at [novadata.io](https://novadata.io/amazon-mcp-server) if you do not have one.
 
-- **[Claude Desktop and Claude web](configs/claude-desktop.md)**
+- **[Claude (web and desktop)](configs/claude-desktop.md)**
 - **[Claude Code](configs/claude-code.md)**
 - **[ChatGPT](configs/chatgpt.md)**
+- **[Microsoft Copilot](configs/copilot.md)**
+- **[Grok](configs/grok.md)**
+- **[Gemini](configs/gemini.md)**
 - **[Cursor](configs/cursor.md)**
+- **Custom enterprise AI**: any MCP client that supports remote servers and OAuth. See [novadata.io/amazon-ai-agents/connect-enterprise-ai](https://novadata.io/amazon-ai-agents/connect-enterprise-ai)
 
 The server URL is identical everywhere. Each client adds it in its own connector settings.
 
-## Tool reference
+## Tools
 
-Full detail in [docs/tools.md](docs/tools.md).
+Full reference in [docs/tools.md](docs/tools.md).
 
 | Tool | What it returns |
 | --- | --- |
-| `query_metrics` | Any metric over any period, grouped by SKU, ASIN, marketplace, account or time grain |
+| `query_metrics` | Any metric over any period (sales, fees, profit, ads, sessions...), by SKU, ASIN, marketplace, account or time grain |
 | `find_movers` | Biggest gainers and losers for a metric versus a baseline period |
-| `explain_movement` | Causal signals behind one SKU's movement: traffic, conversion, price, buy box, ads, rank |
-| `query_advertising` | Sponsored Products at campaign, ad group, targeting, keyword, ASIN or SKU grain |
+| `explain_movement` | Causal signals behind one product's movement: traffic, conversion, price, Buy Box, ads, rank |
+| `query_advertising` | Sponsored Products, Brands and Display, from campaign down to keyword and ASIN |
 | `query_search_terms` | Customer search queries behind ad spend, for negatives and discovery |
-| `query_inventory` | FBA and AWD stock health, velocity, days of inventory, out of stock risk |
-| `query_listing_health` | Suppressed, removed, not buyable, buy box lost, hijackers, catalog content |
-| `query_bsr` | Best Seller Rank for your own ASINs, latest or time series |
-| `query_sqp` | Search Query Performance: impressions, clicks and purchase share by query |
-| `list_cost_inputs` | Configured per SKU COGS, FBM cost and VAT category, for setup audits |
-| `import_cogs` / `import_fbm_costs` / `import_vat_categories` | Maintain your cost inputs conversationally, without leaving the assistant |
-| `list_metrics` / `describe_metric` | Metric catalogue and definitions |
-| `list_accounts` / `list_tags` | Seller accounts and custom product filters |
+| `query_dsp` | Amazon DSP spend and results by advertiser, order, line item, product, device, creative or audience |
+| `query_sqp` | Search Query Performance: impressions, clicks, cart adds and purchase share by query |
+| `query_inventory` | FBA and AWD stock, velocity, days of cover, stockout risk, reorder quantities |
+| `query_listing_health` | Suppressed, not buyable, Buy Box lost, catalog issues |
+| `query_reviews` | Reviews, critical reviews and star rating per ASIN |
+| `query_subscribe_and_save` | Subscribe & Save health, offers and eligibility |
+| `import_cogs` / `import_fbm_costs` / `import_vat_categories` | Maintain your cost inputs from the conversation, previewed before anything is saved |
 
 ## Example prompts
 
-A longer library organised by job lives in [prompts/](prompts/README.md).
+A longer library organised by job lives in [prompts/](prompts/README.md) and at [novadata.io/amazon-mcp-prompts](https://novadata.io/amazon-mcp-prompts).
 
 **Profit**
-- Show me profit by SKU for the last 30 days after PPC.
+- Give me last week's P&L by marketplace and name the three biggest swings.
 - Which SKUs lost the most net profit versus last month, and why?
 - What is my true TACoS by ASIN this quarter?
 
 **Advertising**
-- Which campaigns spent over $100 last week with zero orders?
-- Find search terms with ACoS under 25% and at least 3 orders.
-- Which keywords have good ACoS but negative contribution margin?
+- Which search terms spent the most last week without a sale?
+- Find SKUs where ad spend is up 30% but units are flat or down.
+- What did Amazon DSP cost us last month, and what did it drive?
+
+**Vendor Central**
+- What did Amazon order from us this week versus last week?
+- Compare Vendor Central shipped revenue with Seller Central sales for the same products this month.
 
 **Inventory**
-- What runs out of stock in the next three weeks across all marketplaces?
-- Which SKUs are sitting on more than 120 days of cover?
+- Which SKUs will run out of stock in the next 30 days at current sales speed?
+- Which products should I reorder this week, given my lead times?
 
-**Listings**
-- Which listings are suppressed or losing the buy box right now?
+## How it differs from Amazon's own MCP servers
 
-## How this compares
+Amazon is the source of truth for the data it serves, and its MCP servers are a good fit for what they cover: the Amazon Ads MCP server for campaign management, and Amazon's Selling Partner plugin for Seller Central (US stores at launch).
 
-Honest framing, because the choice depends on what you need.
+Nova adds the processing on top: reports pre-joined so one call returns a consistent answer, your own costs applied so the answer is profit rather than sales, ad and DSP spend inside the P&L, Vendor Central alongside Seller Central, and every account and marketplace in one question. Agencies and multi-brand teams query all their accounts at once.
 
-| | Nova MCP | Amazon Ads MCP | Raw SP-API |
-|---|---|---|---|
-| Advertising data | Yes, to search term level | Yes, official | Via Ads API |
-| Search Query Performance | Yes | No | Partial, separate report |
-| Seller Central financials | Yes, reconciled to SKU | No | Raw reports, unreconciled |
-| Your COGS and landed cost | Yes, maintained through the MCP itself | No | No |
-| True profit after fees and ads | Yes | No | Build it yourself |
-| Listing health and buy box | Yes | No | Separate APIs |
-| Campaign and listing actions | In development | Yes | Yes |
-| **Acts with profit context** | **In development** | **No** | **No** |
-
-The last row is the point. Amazon's own Ads MCP Server can change a campaign, and it is free and official, but it does not know your landed cost, so it cannot tell a profitable ACoS from an unprofitable one. A profit tool that cannot act makes you do the work by hand. Nova is building the combination: change the bid knowing what the SKU actually earns.
-
-Until those actions ship, Nova MCP reads Amazon and maintains your cost inputs. If you need campaign writes today, use Amazon's Ads MCP Server alongside it.
+More detail: [novadata.io/amazon-seller-central-mcp-server](https://novadata.io/amazon-seller-central-mcp-server)
 
 ## Security and permissions
 
 - OAuth against Nova. No Amazon password is ever shared with the MCP
-- Credentials are per seller account and revocable at any time from Nova
-- Today the server cannot modify anything on Amazon: not listings, campaigns, inventory or prices
-- The write tools that exist today update only your own cost configuration inside Nova (COGS, FBM rates, VAT categories)
-- Action tools currently in development will be opt in, scoped separately from read access, and revocable independently
-
-If you are evaluating any Amazon MCP server, including this one, the questions worth asking are the same: does it use Amazon OAuth rather than credential sharing, are read and write scoped separately, can a human approve changes before they apply, and is there an audit trail of what the assistant changed.
+- Access is per Amazon account and revocable at any time from Nova
+- Workspace members only see the accounts they are assigned to
+- Cost tools write only to your own Nova configuration (COGS, FBM, VAT, tags, stock settings), never to Amazon, and always preview the change before saving it
+- Listing content edits (title, bullets, description, backend keywords, product attributes, never price or quantity) are available on Seller Central when enabled for your workspace, for the account owner only, previewed with Amazon's validation before they are confirmed
+- Campaign actions are in development and will follow the same preview and confirm pattern
 
 ## Links
 
-- Product: [novadata.io/amazon-mcp-for-sellers](https://www.novadata.io/amazon-mcp-for-sellers)
-- Setup guide: [novadata.io/amazon-ai-agents/connect-claude](https://www.novadata.io/amazon-ai-agents/connect-claude)
-- Data coverage: [novadata.io/amazon-data-library](https://www.novadata.io/amazon-data-library)
-- Prompt library: [novadata.io/amazon-mcp-prompts](https://www.novadata.io/amazon-mcp-prompts)
+- Amazon MCP server: [novadata.io/amazon-mcp-server](https://novadata.io/amazon-mcp-server)
+- Seller Central MCP: [novadata.io/amazon-seller-central-mcp-server](https://novadata.io/amazon-seller-central-mcp-server)
+- Connection guides: [novadata.io/amazon-ai-agents/connect](https://novadata.io/amazon-ai-agents/connect)
+- Tool list: [novadata.io/amazon-mcp-tools](https://novadata.io/amazon-mcp-tools)
+- Prompt library: [novadata.io/amazon-mcp-prompts](https://novadata.io/amazon-mcp-prompts)
+- For agencies: [novadata.io/amazon-mcp-for-agencies](https://novadata.io/amazon-mcp-for-agencies)
 
 ## Contributing
 

@@ -1,9 +1,10 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.novadata/amazon-seller",
-  "title": "Nova Amazon Seller",
-  "description": "Query live Amazon Seller Central and Ads data from Claude, ChatGPT, Gemini or Cursor: net profit per SKU including COGS, VAT and FBM shipping, PPC down to the search term, Search Query Performance, inventory and listing health.",
-  "version": "1.0.0",
+  "title": "Nova Amazon MCP Server",
+  "description": "Amazon Seller Central, Vendor Central and Ads data, profit-ready, for Claude, ChatGPT and any AI",
+  "version": "1.1.0",
+  "websiteUrl": "https://novadata.io/amazon-mcp-server",
   "repository": {
     "url": "https://github.com/nova-data-analytics/nova-amazon-mcp",
     "source": "github"

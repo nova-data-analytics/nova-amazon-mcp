@@ -1,11 +1,19 @@
 # ChatGPT
 
-Nova MCP works with ChatGPT connectors. Availability depends on your ChatGPT plan.
+1. Open **Plugins**, then **+** and **Add custom MCP server**
+2. Fill in:
 
-1. Open **Settings** then **Connectors**
-2. Choose to add a custom or remote MCP connector
-3. Server URL: `https://mcp.novadata.io/api/mcp`
-4. Complete the OAuth sign in with your Nova account
-5. Enable the connector, then reference it in a chat
+   | Field | Value |
+   |---|---|
+   | Name | `Nova` |
+   | MCP server URL | `https://mcp.novadata.io/api/mcp` |
+   | Authentication | OAuth |
 
-The server URL is the same one used by Claude, Gemini and Cursor. Only the place you paste it changes.
+3. Create it as a plugin, then sign in to Nova and allow access
+4. Install the plugin, type **@** in a new chat and pick **Nova**
+
+```
+@Nova Why did UK profit drop last week?
+```
+
+Availability depends on your ChatGPT plan. Step by step: [novadata.io/amazon-ai-agents/connect-chatgpt](https://novadata.io/amazon-ai-agents/connect-chatgpt)
