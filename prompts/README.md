@@ -18,11 +18,23 @@ Questions that work well against Nova MCP, grouped by the job you are doing. A l
 - Which keywords have good ACoS but negative contribution margin?
 - Show me TACoS trend by week for my top 20 SKUs.
 
+## Vendor Central
+
+- What did Amazon order from us this week versus last week?
+- Which purchase orders were confirmed below what Amazon requested this month?
+- Compare Vendor Central shipped revenue with Seller Central sales for the same products.
+
+## Amazon DSP
+
+- What did Amazon DSP cost us last month, and which line items drove sales?
+- Which DSP line items are still running with no purchases this month?
+
 ## Inventory and supply
 
 - What runs out of stock in the next three weeks across all marketplaces?
 - Which SKUs are sitting on more than 120 days of cover?
 - Which ASINs have the highest storage cost relative to their margin?
+- Which products should I reorder this week, given my lead times?
 
 ## Listing and buy box
 

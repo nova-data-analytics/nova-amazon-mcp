@@ -1,25 +1,22 @@
-# Claude Desktop and Claude web
+# Claude (web and desktop)
 
-Nova MCP is a remote server, so it is added as a **custom connector**, not as a local command.
+Nova MCP is a remote server, so it is added as a **custom connector**, not as a local command. The Free plan allows one custom connector; paid plans allow more. On Team and Enterprise, an Owner adds it once in Organization settings.
 
-Requires a paid Claude plan. If you do not see "Add custom connector", that is why.
-
-1. Open Claude, go to **Settings** then **Connectors**
-2. Click **Add**, then **Add custom connector**
-3. Fill in:
+1. Open **Customize** then **Connectors**
+2. Click **Add custom connector** and fill in:
 
    | Field | Value |
    |---|---|
    | Name | `Nova` |
    | Remote MCP server URL | `https://mcp.novadata.io/api/mcp` |
 
-4. Click **Add**, then complete the OAuth sign in with your Nova account
-5. Toggle **Nova** on in the connectors list
+3. Choose **Sign in now**, click **Add**, then sign in to Nova and allow access
+4. Turn **Nova** on in a chat
 
 Ask a first question to confirm it works:
 
 ```
-List my Amazon seller accounts and the metrics available.
+Give me last week's P&L by marketplace and name the three biggest swings.
 ```
 
-If the connector fails to authorise, check that your Nova account has Seller Central connected and has completed at least one hourly sync.
+Step by step with screenshots: [novadata.io/amazon-ai-agents/connect-claude](https://novadata.io/amazon-ai-agents/connect-claude)

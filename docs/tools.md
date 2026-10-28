@@ -1,48 +1,84 @@
 # Tool reference
 
-Nova MCP exposes a pre-modelled Amazon data layer. Tools take structured filters and return tables, so a typical seller question resolves in one call.
+Nova MCP exposes a pre-modelled Amazon data layer. 52 tools take structured filters and return tables, so a typical seller question resolves in one call. Every call records a one-line reason, so you can see in Nova how your data was used.
 
-## Reading data
+## Sales, profit and diagnosis
 
 | Tool | Returns |
 | --- | --- |
 | `query_metrics` | Any metric over any period, grouped by SKU, ASIN, marketplace, account or time grain |
 | `find_movers` | Biggest gainers and losers for a metric versus a baseline period |
-| `explain_movement` | Causal signals behind one SKU's movement: traffic, conversion, price, buy box, ads, rank |
-| `query_advertising` | Sponsored Products at campaign, ad group, targeting, keyword, ASIN or SKU grain |
-| `query_search_terms` | Customer search queries behind ad spend, for negatives and discovery |
-| `query_inventory` | FBA and AWD stock health, velocity, days of inventory, out of stock risk |
-| `query_listing_health` | Suppressed, removed, not buyable, buy box lost, hijackers, catalog content |
-| `query_bsr` | Best Seller Rank for your own ASINs, latest or time series |
-| `query_sqp` | Search Query Performance: impressions, clicks and purchase share by customer query |
+| `explain_movement` | Causal signals behind one product's movement: traffic, conversion, price, Buy Box, ads, rank |
+| `query_pnl_bridge` | Order-based and cash-based P&L of the same months side by side, line by line, and what separates them (timing, refunds, reserves) |
 
-## Catalogue and setup
+## Advertising
 
 | Tool | Returns |
 | --- | --- |
-| `list_metrics` | Every metric available, with its grain |
-| `describe_metric` | Definition and calculation of one metric |
-| `list_accounts` | Seller accounts connected to your Nova organisation |
-| `list_tags` | Custom product groupings you have configured |
-| `list_cost_inputs` | Configured per SKU COGS, FBM cost and VAT category, useful for setup audits |
+| `query_advertising` | Sponsored Products, Brands and Display at campaign, ad group, targeting, keyword, ASIN or SKU grain, Seller and Vendor programmes |
+| `query_search_terms` | Customer search queries behind ad spend, for negatives and discovery |
+| `list_negative_targets` | Negative keywords and product targets already in place (Sponsored Products) |
+| `query_dsp` | Amazon DSP by advertiser, order, line item, product, supply, device, creative, audience or country |
+| `query_sqp` | Search Query Performance: search volume, the whole market's funnel on each query and your impression and purchase share of it, with year on year change |
 
-## Maintaining your cost inputs
+## Vendor Central (1P)
 
-Profit is only as good as the costs behind it. These tools let you keep them current from inside the assistant rather than through a spreadsheet import.
-
-| Tool | Does |
+| Tool | Returns |
 | --- | --- |
-| `import_cogs` | Set or update cost of goods per SKU |
-| `import_fbm_costs` / `import_fbm_zone_rates` | Maintain FBM shipping cost inputs |
-| `import_vat_categories` / `set_vat_default_category` | Maintain VAT treatment per product |
-| `import_product_tags` | Update custom product groupings |
+| `query_vendor_purchase_orders` | Amazon's purchase orders to the vendor: ship window, state, requested, accepted and received units, per PO or per product |
+| `query_vendor_inventory` | The stock Amazon holds of the vendor's products, per ASIN and marketplace, as of Amazon's last reported week |
+| `query_vendor_invoices` | The invoices issued to Amazon and their status: paid, partially paid, in progress, variances and quick pay discount |
+| `query_vendor_remittances` | What Amazon paid and what it deducted, per payment or per invoice, on the payment date |
+
+Sales, traffic, P&L and the Amazon shelf of a Vendor Central account read through `query_metrics` and `find_movers`, the same tools as Seller Central: `list_metrics` marks each metric's channel (SELLER, VENDOR) and basis.
+
+## Inventory and supply chain
+
+| Tool | Returns |
+| --- | --- |
+| `query_inventory` | FBA and AWD stock, velocity, days of cover, stockout risk, recommended reorder quantity |
+| `get_inventory_overview` | Stock by location with stock value at cost |
+| `query_inbound_shipments` | FBA inbound shipments: in progress, received, and closed with missing units |
+| `get_stock_setup` / `get_stock_worksheet` | Lead times and stock targets in place, and what is missing |
+| `get_supply_chain_setup` / `get_supply_chain_products` | Warehouses, 3PL counts and open supplier orders per product |
+
+## Catalogue, listings and customers
+
+| Tool | Returns |
+| --- | --- |
+| `query_listing_health` | Suppressed, not buyable, Buy Box lost, catalog issues |
+| `get_listing_content` / `update_listing_content` / `get_listing_change_status` | Read the editable content of a listing as Amazon holds it, change it (title, bullets, description, backend keywords, attributes; never price or stock) and follow the change until Amazon publishes it |
+| `query_bsr` | Best Seller Rank for your own ASINs, latest or time series |
+| `query_reviews` | Reviews, critical reviews, review rate and star rating per ASIN |
+| `query_subscribe_and_save` | Subscribe & Save health, offers, eligibility changes |
+| `list_events` / `create_events` | Dated notes on the charts (price change, A+ update, launch) to explain later movements |
+
+## Catalogue of metrics and accounts
+
+| Tool | Returns |
+| --- | --- |
+| `list_metrics` / `describe_metric` | Every metric available and its definition |
+| `list_accounts` | Amazon accounts connected to your Nova workspaces |
+| `list_tags` | Your custom product groupings |
+| `list_cost_inputs` | Configured COGS, FBM cost and VAT category per SKU, for setup audits |
+
+## Maintaining your inputs
+
+Profit is only as good as the costs behind it. These tools keep them current from inside the assistant. Every write is two steps: a preview with the diff and warnings, then a commit you confirm.
+
+| Area | Tools |
+| --- | --- |
+| Cost of goods | `get_cogs_setup`, `get_cogs_worksheet`, `import_cogs` |
+| FBM shipping | `get_fbm_setup`, `get_fbm_worksheet`, `import_fbm_costs`, `import_fbm_zone_rates` |
+| VAT | `get_vat_setup`, `get_vat_worksheet`, `import_vat_categories`, `set_vat_default_category` |
+| Product tags | `get_tags_worksheet`, `import_product_tags` |
+| Stock and supply | `set_stock_defaults`, `import_supply_chain` (one line per product and warehouse: count, supplier orders, lead times, targets); `import_stock_params`, `import_external_stock` and `import_supplier_orders` are deprecated since 2026-10-22 and kept for existing callers |
 
 These write into your Nova account only. They never touch Amazon.
 
 ## Notes
 
-- Today, all Amazon access is read only. No tool can modify a listing, a campaign, inventory or a price.
-- Cost configuration tools write only into your own Nova account, never to Amazon.
-- Campaign and listing actions are in development. They will be opt in and scoped separately from read access.
-- Data covers 23 Amazon marketplaces and refreshes hourly.
-- Metric definitions are shared with the Nova web app, so an answer in Claude matches the dashboard.
+- Listing content edits on Seller Central are available when enabled for your workspace, for the account owner, previewed with Amazon's validation before they are confirmed. They never change price or quantity.
+- Campaign actions are in development.
+- Data covers 23 Amazon marketplaces. Orders arrive within seconds; finance transactions refresh hourly, ad spend every two hours, search terms three times a day, the other reports daily.
+- Metric definitions are shared with the Nova web app, so an answer in your assistant matches the dashboard.
