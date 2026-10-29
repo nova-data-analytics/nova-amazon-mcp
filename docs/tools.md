@@ -1,6 +1,6 @@
 # Tool reference
 
-Nova MCP exposes a pre-modelled Amazon data layer. 52 tools take structured filters and return tables, so a typical seller question resolves in one call. Every call records a one-line reason, so you can see in Nova how your data was used.
+Nova MCP exposes a pre-modelled Amazon data layer. 47 tools take structured filters and return tables, so a typical seller question resolves in one call. Every call records a one-line reason, so you can see in Nova how your data was used.
 
 ## Sales, profit and diagnosis
 
@@ -36,11 +36,10 @@ Sales, traffic, P&L and the Amazon shelf of a Vendor Central account read throug
 
 | Tool | Returns |
 | --- | --- |
-| `query_inventory` | FBA and AWD stock, velocity, days of cover, stockout risk, recommended reorder quantity |
-| `get_inventory_overview` | Stock by location with stock value at cost |
+| `query_inventory` | FBA and AWD stock per SKU or ASIN: velocity, days of cover, stockout risk, recommended reorder quantity. With `groupBy: "stockRegion"`, stock by location with stock value at cost |
 | `query_inbound_shipments` | FBA inbound shipments: in progress, received, and closed with missing units |
-| `get_stock_setup` / `get_stock_worksheet` | Lead times and stock targets in place, and what is missing |
-| `get_supply_chain_setup` / `get_supply_chain_products` | Warehouses, 3PL counts and open supplier orders per product |
+| `get_setup` (`domain: "stock"`) / `get_stock_worksheet` | Lead times and stock targets in place, and what is missing |
+| `get_setup` (`domain: "supply_chain"`) / `get_supply_chain_products` | Warehouses, 3PL counts and open supplier orders per product |
 
 ## Catalogue, listings and customers
 
@@ -64,13 +63,13 @@ Sales, traffic, P&L and the Amazon shelf of a Vendor Central account read throug
 
 ## Maintaining your inputs
 
-Profit is only as good as the costs behind it. These tools keep them current from inside the assistant. Every write is two steps: a preview with the diff and warnings, then a commit you confirm.
+Profit is only as good as the costs behind it. These tools keep them current from inside the assistant. Every write is two steps: a preview with the diff and warnings, then a commit you confirm. `get_setup` is the starting point of each area: pass the `domain` (`cogs`, `fbm`, `stock`, `supply_chain` or `vat`).
 
 | Area | Tools |
 | --- | --- |
-| Cost of goods | `get_cogs_setup`, `get_cogs_worksheet`, `import_cogs` |
-| FBM shipping | `get_fbm_setup`, `get_fbm_worksheet`, `import_fbm_costs`, `import_fbm_zone_rates` |
-| VAT | `get_vat_setup`, `get_vat_worksheet`, `import_vat_categories`, `set_vat_default_category` |
+| Cost of goods | `get_setup`, `get_cogs_worksheet`, `import_cogs` |
+| FBM shipping | `get_setup`, `get_fbm_worksheet`, `import_fbm_costs`, `import_fbm_zone_rates` |
+| VAT | `get_setup`, `get_vat_worksheet`, `import_vat_categories`, `set_vat_default_category` |
 | Product tags | `get_tags_worksheet`, `import_product_tags` |
 | Stock and supply | `set_stock_defaults`, `import_supply_chain` (one line per product and warehouse: count, supplier orders, lead times, targets); `import_stock_params`, `import_external_stock` and `import_supplier_orders` are deprecated since 2026-10-22 and kept for existing callers |
 

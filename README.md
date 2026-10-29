@@ -48,7 +48,7 @@ The server URL is identical everywhere. Each client adds it in its own connector
 
 ## Tools
 
-52 tools. Full reference in [docs/tools.md](docs/tools.md).
+47 tools. Full reference in [docs/tools.md](docs/tools.md).
 
 | Tool | What it returns |
 | --- | --- |
