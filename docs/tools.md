@@ -1,6 +1,6 @@
 # Tool reference
 
-Nova MCP exposes a pre-modelled Amazon data layer. 47 tools take structured filters and return tables, so a typical seller question resolves in one call. Every call records a one-line reason, so you can see in Nova how your data was used.
+Nova MCP exposes a pre-modelled Amazon data layer. 53 tools take structured filters and return tables, so a typical seller question resolves in one call. Every call records a one-line reason, so you can see in Nova how your data was used.
 
 ## Sales, profit and diagnosis
 
@@ -10,6 +10,8 @@ Nova MCP exposes a pre-modelled Amazon data layer. 47 tools take structured filt
 | `find_movers` | Biggest gainers and losers for a metric versus a baseline period |
 | `explain_movement` | Causal signals behind one product's movement: traffic, conversion, price, Buy Box, ads, rank |
 | `query_pnl_bridge` | Order-based and cash-based P&L of the same months side by side, line by line, and what separates them (timing, refunds, reserves) |
+| `query_live` | Today hour by hour against the same time yesterday: sales, ad spend, products and campaigns that move, campaigns out of budget, latest orders (Seller Central) |
+| `query_promotions` | The deals, coupons and promotions running or scheduled, the products each covers and what it sold so far |
 
 ## Advertising
 
@@ -18,6 +20,7 @@ Nova MCP exposes a pre-modelled Amazon data layer. 47 tools take structured filt
 | `query_advertising` | Sponsored Products, Brands and Display at campaign, ad group, targeting, keyword, ASIN or SKU grain, Seller and Vendor programmes |
 | `query_search_terms` | Customer search queries behind ad spend, for negatives and discovery |
 | `list_negative_targets` | Negative keywords and product targets already in place (Sponsored Products) |
+| `list_ads_setting_changes` | Change history of the bid settings: which bid, placement adjustment or bidding strategy moved, on which campaign, ad group or target, from which value to which value, on which day (Sponsored Products; bids on Sponsored Display) |
 | `query_dsp` | Amazon DSP by advertiser, order, line item, product, supply, device, creative, audience or country |
 | `query_sqp` | Search Query Performance: search volume, the whole market's funnel on each query and your impression and purchase share of it, with year on year change |
 
@@ -71,6 +74,7 @@ Profit is only as good as the costs behind it. These tools keep them current fro
 | FBM shipping | `get_setup`, `get_fbm_worksheet`, `import_fbm_costs`, `import_fbm_zone_rates` |
 | VAT | `get_setup`, `get_vat_worksheet`, `import_vat_categories`, `set_vat_default_category` |
 | Product tags | `get_tags_worksheet`, `import_product_tags` |
+| TACOS targets | `get_tacos_worksheet` (each product's target and its last 30 days of sales, ad spend and TACOS), `import_tacos_targets`, `set_tacos_default_target` (organization default, owners only) |
 | Stock and supply | `set_stock_defaults`, `import_supply_chain` (one line per product and warehouse: count, supplier orders, lead times, targets); `import_stock_params`, `import_external_stock` and `import_supplier_orders` are deprecated since 2026-10-22 and kept for existing callers |
 
 These write into your Nova account only. They never touch Amazon.
