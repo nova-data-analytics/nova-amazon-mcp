@@ -48,7 +48,7 @@ The server URL is identical everywhere. Each client adds it in its own connector
 
 ## Tools
 
-47 tools. Full reference in [docs/tools.md](docs/tools.md).
+53 tools. Full reference in [docs/tools.md](docs/tools.md).
 
 | Tool | What it returns |
 | --- | --- |
@@ -103,7 +103,7 @@ More detail: [novadata.io/amazon-seller-central-mcp-server](https://novadata.io/
 - OAuth against Nova. No Amazon password is ever shared with the MCP
 - Access is per Amazon account and revocable at any time from Nova
 - Workspace members only see the accounts they are assigned to
-- Cost tools write only to your own Nova configuration (COGS, FBM, VAT, tags, stock settings), never to Amazon, and always preview the change before saving it
+- Cost tools write only to your own Nova configuration (COGS, FBM, VAT, tags, stock settings, TACOS targets), never to Amazon, and always preview the change before saving it
 - Listing content edits (title, bullets, description, backend keywords, product attributes, never price or quantity) are available on Seller Central when enabled for your workspace, for the account owner only, previewed with Amazon's validation before they are confirmed
 - Campaign actions are in development and will follow the same preview and confirm pattern
 
