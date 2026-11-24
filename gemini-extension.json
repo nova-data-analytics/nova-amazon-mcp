@@ -1,0 +1,10 @@
+{
+  "name": "nova-amazon",
+  "version": "1.2.0",
+  "description": "Nova: Amazon Seller Central, Vendor Central, Amazon Ads and DSP data for Gemini CLI, profit-ready. Sign in with your Nova account on first use.",
+  "mcpServers": {
+    "nova": {
+      "httpUrl": "https://mcp.novadata.io/api/mcp"
+    }
+  }
+}
