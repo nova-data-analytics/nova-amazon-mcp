@@ -1,0 +1,15 @@
+{
+  "name": "nova",
+  "owner": {
+    "name": "Nova Data Analytics",
+    "email": "contact@novadata.io"
+  },
+  "plugins": [
+    {
+      "name": "nova-amazon",
+      "source": "./",
+      "description": "Nova's Amazon MCP server and playbook skills for Seller Central, Vendor Central, Amazon Ads and DSP.",
+      "version": "1.2.0"
+    }
+  ]
+}

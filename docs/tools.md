@@ -81,7 +81,7 @@ These write into your Nova account only. They never touch Amazon.
 
 ## Notes
 
-- Listing content edits on Seller Central are available when enabled for your workspace, for the account owner, previewed with Amazon's validation before they are confirmed. They never change price or quantity.
+- Listing content edits on Seller Central are available to the workspace owner, previewed with Amazon's validation before they are confirmed. They never change price or quantity.
 - Campaign actions are in development.
 - Data covers 23 Amazon marketplaces. Orders arrive within seconds; finance transactions refresh hourly, ad spend every two hours, search terms three times a day, the other reports daily.
 - Metric definitions are shared with the Nova web app, so an answer in your assistant matches the dashboard.

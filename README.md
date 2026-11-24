@@ -46,6 +46,23 @@ You need a Nova account with at least one Amazon account connected. Start a tria
 
 The server URL is identical everywhere. Each client adds it in its own connector settings.
 
+### Claude Code plugin
+
+This repository is also a Claude Code plugin marketplace. The plugin adds the Nova MCP server and the skills below:
+
+```
+/plugin marketplace add nova-data-analytics/nova-amazon-mcp
+/plugin install nova-amazon@nova
+```
+
+### Gemini CLI extension
+
+```
+gemini extensions install https://github.com/nova-data-analytics/nova-amazon-mcp
+```
+
+Sign in with your Nova account the first time a Nova tool runs.
+
 ## Tools
 
 53 tools. Full reference in [docs/tools.md](docs/tools.md).
@@ -90,6 +107,20 @@ A longer library organised by job lives in [prompts/](prompts/README.md) and at 
 - Which SKUs will run out of stock in the next 30 days at current sales speed?
 - Which products should I reorder this week, given my lead times?
 
+## Skills
+
+Ready-made playbooks in [skills/](skills), each a `SKILL.md` that Claude and other agents can load. Every step calls a Nova tool on your live Amazon data.
+
+| Skill | What it answers |
+| --- | --- |
+| [why-amazon-sales-dropped](skills/why-amazon-sales-dropped/SKILL.md) | Which products lost sales, and which link broke: traffic, conversion, price, Featured Offer, ads, stock or demand |
+| [wasted-amazon-ppc-spend](skills/wasted-amazon-ppc-spend/SKILL.md) | Search terms, keywords and campaigns that spend without sales or profit |
+| [amazon-weekly-business-report](skills/amazon-weekly-business-report/SKILL.md) | A weekly review of sales, profit, ads, inventory and the movers behind them |
+| [amazon-products-losing-money](skills/amazon-products-losing-money/SKILL.md) | Products that lose money after fees, COGS and advertising |
+| [amazon-stockout-forecast](skills/amazon-stockout-forecast/SKILL.md) | What runs out of stock next, days of cover and reorder signals |
+
+More playbooks: [novadata.io/amazon-mcp-prompts](https://novadata.io/amazon-mcp-prompts)
+
 ## How it differs from Amazon's own MCP servers
 
 Amazon is the source of truth for the data it serves, and its MCP servers are a good fit for what they cover: the Amazon Ads MCP server for campaign management, and Amazon's Selling Partner plugin for Seller Central (US stores at launch).
@@ -104,7 +135,7 @@ More detail: [novadata.io/amazon-seller-central-mcp-server](https://novadata.io/
 - Access is per Amazon account and revocable at any time from Nova
 - Workspace members only see the accounts they are assigned to
 - Cost tools write only to your own Nova configuration (COGS, FBM, VAT, tags, stock settings, TACOS targets), never to Amazon, and always preview the change before saving it
-- Listing content edits (title, bullets, description, backend keywords, product attributes, never price or quantity) are available on Seller Central when enabled for your workspace, for the account owner only, previewed with Amazon's validation before they are confirmed
+- Listing content edits (title, bullets, description, backend keywords, product attributes, never price or quantity) are available on Seller Central to the workspace owner only, previewed with Amazon's validation before they are confirmed
 - Campaign actions are in development and will follow the same preview and confirm pattern
 
 ## Links
@@ -118,7 +149,7 @@ More detail: [novadata.io/amazon-seller-central-mcp-server](https://novadata.io/
 
 ## Contributing
 
-Issues and pull requests are welcome for the configs, docs and prompt library. For questions about the hosted service, contact Nova through the site.
+Issues and pull requests are welcome for the configs, docs, prompt library and skills. Security reports: see [SECURITY.md](SECURITY.md). For questions about the hosted service, contact Nova through the site.
 
 ## License
 

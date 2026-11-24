@@ -1,0 +1,15 @@
+{
+  "name": "nova-amazon",
+  "version": "1.2.0",
+  "description": "Nova's Amazon MCP server and playbook skills: Seller Central, Vendor Central, Amazon Ads and DSP data, profit after fees, COGS and ad spend.",
+  "author": {
+    "name": "Nova Data Analytics",
+    "email": "contact@novadata.io",
+    "url": "https://novadata.io"
+  },
+  "homepage": "https://novadata.io/amazon-mcp-server",
+  "privacyPolicyUrl": "https://novadata.io/privacy-policy",
+  "repository": "https://github.com/nova-data-analytics/nova-amazon-mcp",
+  "license": "MIT",
+  "keywords": ["amazon", "amazon-seller", "seller-central", "vendor-central", "amazon-ads", "amazon-dsp", "mcp", "ecommerce-analytics"]
+}

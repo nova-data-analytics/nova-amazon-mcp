@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "nova": {
+      "type": "http",
+      "url": "https://mcp.novadata.io/api/mcp"
+    }
+  }
+}
