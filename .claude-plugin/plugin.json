@@ -8,6 +8,7 @@
     "url": "https://novadata.io"
   },
   "homepage": "https://novadata.io/amazon-mcp-server",
+  "privacyPolicyUrl": "https://novadata.io/privacy-policy",
   "repository": "https://github.com/nova-data-analytics/nova-amazon-mcp",
   "license": "MIT",
   "keywords": ["amazon", "amazon-seller", "seller-central", "vendor-central", "amazon-ads", "amazon-dsp", "mcp", "ecommerce-analytics"]

@@ -21,5 +21,5 @@ Please do not open a public GitHub issue for a security problem. We reply to eve
 ## How access works
 
 - Clients connect with OAuth 2.0 (PKCE, dynamic client registration) using a Nova account. Access is scoped to the user's Nova workspace and can be revoked in Nova at any time.
-- Tools read data by default. The only tools that change data on Amazon are Seller Central listing content edits (never price or quantity): they work only when enabled for the workspace, for the account owner only, and every change is previewed with Amazon's validation before it is confirmed.
-- Other write tools only change settings stored in Nova (costs, VAT, stock parameters, tags, events).
+- Tools read data by default. The only tools that change data on Amazon are Seller Central listing content edits (never price or quantity): they work for the workspace owner only, and every change is previewed with Amazon's validation before it is confirmed.
+- Other write tools only change settings stored in Nova (costs, VAT, stock parameters, supplier orders, TACOS targets, tags, events).
