@@ -65,7 +65,7 @@ Sign in with your Nova account the first time a Nova tool runs.
 
 ## Tools
 
-53 tools. Full reference in [docs/tools.md](docs/tools.md).
+55 tools. Full reference in [docs/tools.md](docs/tools.md).
 
 | Tool | What it returns |
 | --- | --- |
@@ -83,6 +83,7 @@ Sign in with your Nova account the first time a Nova tool runs.
 | `query_subscribe_and_save` | Subscribe & Save health, offers and eligibility |
 | `query_vendor_purchase_orders` / `query_vendor_inventory` / `query_vendor_invoices` / `query_vendor_remittances` | Vendor Central: Amazon's purchase orders, the stock Amazon holds, your invoices, Amazon's payments and deductions |
 | `get_listing_content` / `update_listing_content` | Read and edit listing content on Amazon (title, bullets, backend keywords, attributes), previewed before it is confirmed |
+| `get_listing_prices` | The current price, sale price, price limits and Business price of each listing, read live from Amazon |
 | `import_cogs` / `import_fbm_costs` / `import_vat_categories` | Maintain your cost inputs from the conversation, previewed before anything is saved |
 
 ## Example prompts

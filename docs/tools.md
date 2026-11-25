@@ -1,6 +1,6 @@
 # Tool reference
 
-Nova MCP exposes a pre-modelled Amazon data layer. 53 tools take structured filters and return tables, so a typical seller question resolves in one call. Every call records a one-line reason, so you can see in Nova how your data was used.
+Nova MCP exposes a pre-modelled Amazon data layer. 55 tools take structured filters and return tables, so a typical seller question resolves in one call. Every call records a one-line reason, so you can see in Nova how your data was used.
 
 ## Sales, profit and diagnosis
 
@@ -32,6 +32,7 @@ Nova MCP exposes a pre-modelled Amazon data layer. 53 tools take structured filt
 | `query_vendor_inventory` | The stock Amazon holds of the vendor's products, per ASIN and marketplace, as of Amazon's last reported week |
 | `query_vendor_invoices` | The invoices issued to Amazon and their status: paid, partially paid, in progress, variances and quick pay discount |
 | `query_vendor_remittances` | What Amazon paid and what it deducted, per payment or per invoice, on the payment date |
+| `query_vendor_deals` | The deals and price discounts running now on the vendor's products, with what customers paid since each started against the product's usual price |
 
 Sales, traffic, P&L and the Amazon shelf of a Vendor Central account read through `query_metrics` and `find_movers`, the same tools as Seller Central: `list_metrics` marks each metric's channel (SELLER, VENDOR) and basis.
 
@@ -50,6 +51,7 @@ Sales, traffic, P&L and the Amazon shelf of a Vendor Central account read throug
 | --- | --- |
 | `query_listing_health` | Suppressed, not buyable, Buy Box lost, catalog issues |
 | `get_listing_content` / `update_listing_content` / `get_listing_change_status` | Read the editable content of a listing as Amazon holds it, change it (title, bullets, description, backend keywords, attributes; never price or stock) and follow the change until Amazon publishes it |
+| `get_listing_prices` | The prices of a listing as Amazon holds them now, read live: price, dated sale prices, the minimum and maximum prices you allow, Business price and quantity discounts. Read only |
 | `query_bsr` | Best Seller Rank for your own ASINs, latest or time series |
 | `query_reviews` | Reviews, critical reviews, review rate and star rating per ASIN |
 | `query_subscribe_and_save` | Subscribe & Save health, offers, eligibility changes |
